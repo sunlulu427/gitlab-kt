@@ -53,4 +53,14 @@ class MiscApiTest : BaseTestCase {
         assertNotNull(data.content)
         assert(data.content.isNotEmpty())
     }
+
+    @Test
+    fun testGetAvatarUrl() = runBlocking {
+        val result = miscApi.getAvatarUrl(
+            email = System.getenv("GITLAB_TEST_EMAIL"),
+            size = 32
+        )
+        assert(result.isSuccess)
+        assert(result.getOrThrow().avatarUrl.isNotEmpty())
+    }
 }
