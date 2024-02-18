@@ -6,6 +6,7 @@ import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
+import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
 object GitlabService {
@@ -20,8 +21,21 @@ object GitlabService {
         .build()
 
     private val callAdapterFactory = object : CallAdapter.Factory() {
-        override fun get(type: Type, annotations: Array<out Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
-            return null
+        override fun get(
+            returnType: Type,
+            annotations: Array<out Annotation>,
+            retrofit: Retrofit
+        ): CallAdapter<*, *>? {
+            // Get the actual type inside Call<Result<T>>
+            val typeInsideResult = getParameterUpperBound(0, returnType as ParameterizedType)
+            val rawType = getRawType(typeInsideResult)
+            if (rawType != Result::class.java) {
+                return null
+            }
+
+            // Get the actual type inside Result<T>
+            val typeInsideCall = getParameterUpperBound(0, typeInsideResult as ParameterizedType)
+            return ResultCallAdapter<Any>(typeInsideCall)
         }
     }
 
