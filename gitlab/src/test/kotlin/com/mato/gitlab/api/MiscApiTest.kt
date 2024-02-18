@@ -35,4 +35,23 @@ class MiscApiTest : BaseTestCase {
         assertNotNull(data.content)
         assert(data.content.isNotEmpty())
     }
+
+    @Test
+    fun testGetGitlabCIYamlTemplates(): Unit = runBlocking {
+        val result = miscApi.getGitlabCIYamlTemplates()
+        assert(result.isSuccess)
+        val data = result.getOrThrow()
+        assert(data.isNotEmpty())
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["Android", "C++", "Gradle", "Maven"])
+    fun testGetGitlabCIYamlTemplate(key: String): Unit = runBlocking {
+        val result = miscApi.getGitlabCIYamlTemplate(key)
+        assert(result.isSuccess)
+        val data = result.getOrThrow()
+        assertEquals(data.name, key)
+        assertNotNull(data.content)
+        assert(data.content.isNotEmpty())
+    }
 }
