@@ -1,5 +1,6 @@
-package com.mato.gitlab
+package com.mato.gitlab.api
 
+import com.mato.gitlab.GitlabContext
 import okhttp3.logging.HttpLoggingInterceptor
 import org.junit.jupiter.api.BeforeAll
 

@@ -1,6 +1,5 @@
 package com.mato.gitlab.api
 
-import com.mato.gitlab.BaseTestCase
 import com.mato.gitlab.GitlabService
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
@@ -15,7 +14,7 @@ import kotlin.test.assertNotNull
  */
 class MiscApiTest : BaseTestCase {
 
-    private val miscApi = GitlabService.get(MiscApi::class.java)
+    private val miscApi = GitlabService.get<MiscApi>()
 
     @Test
     fun testGetGitignoreTemplates(): Unit = runBlocking {

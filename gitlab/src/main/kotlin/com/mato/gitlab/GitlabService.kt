@@ -44,21 +44,20 @@ object GitlabService {
 
     private val mediaType = MediaType.get("application/json")
 
-    private val retrofit = Retrofit.Builder()
+    val retrofit: Retrofit = Retrofit.Builder()
         .client(client)
         .baseUrl(GitlabContext.baseUrl)
         .addConverterFactory(Json.asConverterFactory(mediaType))
         .addCallAdapterFactory(callAdapterFactory)
         .build()
 
-    private val serviceCollection = mutableMapOf<Class<*>, Any>()
+    val serviceCollection = mutableMapOf<Class<*>, Any>()
 
-    fun <T : Any> get(clazz: Class<T>): T = if (clazz in serviceCollection) {
-        @Suppress("UNCHECKED_CAST")
-        serviceCollection[clazz] as T
+    inline fun <reified T : Any> get(): T = if (T::class.java in serviceCollection) {
+        serviceCollection[T::class.java] as T
     } else {
-        retrofit.create(clazz).also {
-            serviceCollection[clazz] = it
+        retrofit.create(T::class.java).also {
+            serviceCollection[T::class.java] = it
         }
     }
 }
