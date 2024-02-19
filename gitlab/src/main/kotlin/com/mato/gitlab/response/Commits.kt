@@ -11,5 +11,7 @@ data class Commit(
     val id: String,
     val shortId: String,
     val title: String,
-    val authorName: String
+    val authorName: String,
+    val authoredDate: String,
+    val committerEmail: String
 )

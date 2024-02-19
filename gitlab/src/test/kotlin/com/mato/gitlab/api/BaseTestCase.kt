@@ -11,8 +11,8 @@ interface BaseTestCase {
         @BeforeAll
         fun setup() {
             GitlabContext.config(
-                baseUrl = System.getenv("GITLAB_BASE_URL"),
-                token = System.getenv("GITLAB_TOKEN")
+                baseUrl = TestingEnv.GITLAB_BASE_URL.get(),
+                token = TestingEnv.GITLAB_TOKEN.get()
             ) {
                 loggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger(::println)).also {
                     it.level = HttpLoggingInterceptor.Level.BODY
@@ -20,6 +20,4 @@ interface BaseTestCase {
             }
         }
     }
-
-    val testEmail: String get() = System.getenv("GITLAB_TEST_EMAIL")
 }

@@ -53,6 +53,7 @@ object GitlabService {
 
     @OptIn(ExperimentalSerializationApi::class)
     private val json = Json {
+        ignoreUnknownKeys = true
         namingStrategy = JsonNamingStrategy { _, _, serialName ->
             serialName.replace(camelStyle, "$1_$2").lowercase()
         }
