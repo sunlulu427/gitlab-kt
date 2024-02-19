@@ -12,12 +12,16 @@ import java.lang.reflect.Type
 object GitlabService {
     private val client = OkHttpClient.Builder()
         .addInterceptor {
-            val request = it.request()
+            val headers = it.request().headers().names()
             val builder = it.request().newBuilder()
             // add headers
             builder.addHeader("PRIVATE-TOKEN", GitlabContext.token)
-            builder.addHeader("Content-Type", "application/json")
-            builder.addHeader("Accept", "application/json")
+            if ("Content-Type" !in headers) {
+                builder.addHeader("Content-Type", "application/json")
+            }
+            if ("Accept" !in headers) {
+                builder.addHeader("Accept", "application/json")
+            }
             it.proceed(builder.build())
         }
         .addInterceptor(GitlabContext.loggingInterceptor)
