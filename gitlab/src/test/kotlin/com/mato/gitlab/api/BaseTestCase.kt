@@ -9,7 +9,7 @@ interface BaseTestCase {
     companion object {
         @JvmStatic
         @BeforeAll
-        fun setup(): Unit {
+        fun setup() {
             GitlabContext.config(
                 baseUrl = System.getenv("GITLAB_BASE_URL"),
                 token = System.getenv("GITLAB_TOKEN")
@@ -20,4 +20,6 @@ interface BaseTestCase {
             }
         }
     }
+
+    val testEmail: String get() = System.getenv("GITLAB_TEST_EMAIL")
 }

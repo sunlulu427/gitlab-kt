@@ -57,7 +57,7 @@ class MiscApiTest : BaseTestCase {
     @Test
     fun testGetAvatarUrl() = runBlocking {
         val result = miscApi.getAvatarUrl(
-            email = System.getenv("GITLAB_TEST_EMAIL"),
+            email = testEmail,
             size = 32
         )
         assert(result.isSuccess)

@@ -1,7 +1,9 @@
 package com.mato.gitlab
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonNamingStrategy
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.CallAdapter
@@ -47,11 +49,19 @@ object GitlabService {
     }
 
     private val mediaType = MediaType.get("application/json")
+    private val camelStyle = Regex("([a-z])([A-Z]+)")
+
+    @OptIn(ExperimentalSerializationApi::class)
+    private val json = Json {
+        namingStrategy = JsonNamingStrategy { _, _, serialName ->
+            serialName.replace(camelStyle, "$1_$2").lowercase()
+        }
+    }
 
     val retrofit: Retrofit = Retrofit.Builder()
         .client(client)
         .baseUrl(GitlabContext.baseUrl)
-        .addConverterFactory(Json.asConverterFactory(mediaType))
+        .addConverterFactory(json.asConverterFactory(mediaType))
         .addCallAdapterFactory(callAdapterFactory)
         .build()
 

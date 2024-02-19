@@ -1,6 +1,5 @@
 package com.mato.gitlab.response
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
@@ -11,4 +10,4 @@ data class KeyNamePair(val key: String, val name: String)
 data class FileTemplate(val name: String, val content: String)
 
 @Serializable
-data class AvatarUrl(@SerialName("avatar_url") val avatarUrl: String)
+data class AvatarUrl(val avatarUrl: String)
