@@ -24,9 +24,54 @@ dependencies {
 }
 
 tasks.withType<DokkaTask>().configureEach {
+    doFirst {
+        val title = """
+            # Module gitlab
+
+            > **Github Project**: [https://github.com/sunlulu427/gitlab-kt](https://github.com/sunlulu427/gitlab-kt)
+        """.trimIndent()
+        val resolved = configurations["runtimeClasspath"]
+            .resolvedConfiguration
+            .resolvedArtifacts
+            .map { it.moduleVersion.id }
+            .sortedBy { it.group + it.name }
+        val maxGroupLength = maxOf(resolved.maxOf { it.group.length }, "group".length) + 2
+        val maxNameLength = maxOf(resolved.maxOf { it.name.length }, "name".length) + 2
+        val maxVersionLength = maxOf(resolved.maxOf { it.version.length }, "version".length) + 2
+        fun String.padSpaces(maxLength: Int) = padStart(length + 1, ' ').padEnd(maxLength, ' ')
+        val rows = mutableListOf(
+            arrayOf(
+                "group".padSpaces(maxGroupLength),
+                "name".padSpaces(maxNameLength),
+                "version".padSpaces(maxVersionLength)
+            ).joinToString(separator = "|", prefix = "|", postfix = "|"),
+            arrayOf(
+                "-".repeat(maxGroupLength),
+                "-".repeat(maxNameLength),
+                "-".repeat(maxVersionLength)
+            ).joinToString(separator = "|", prefix = "|", postfix = "|")
+        )
+        rows.addAll(
+            resolved.map {
+                arrayOf(
+                    it.group.padSpaces(maxGroupLength),
+                    it.name.padSpaces(maxNameLength),
+                    it.version.padSpaces(maxVersionLength)
+                ).joinToString(separator = "|", prefix = "|", postfix = "|")
+            }
+        )
+        project.file("README.md").run {
+            setWritable(true)
+            writeText(title)
+            appendText("\n")
+            appendText(rows.joinToString("\n", prefix = "\n\n"))
+            setReadOnly()
+        }
+    }
     dokkaSourceSets {
         named("main") {
-            samples.setFrom(getByName("test").sourceRoots.map(File::getPath))
+            samples.from(getByName("test").sourceRoots)
+            includes.from("README.md")
         }
     }
 }
