@@ -2,6 +2,13 @@ package com.mato.gitlab
 
 import okhttp3.logging.HttpLoggingInterceptor
 
+/**
+ * Gitlab context
+ *
+ * @author sunlulu.tomato
+ * @date 02/20/2024
+ * @sample com.mato.gitlab.api.BaseTestCase.Companion.setup
+ */
 object GitlabContext {
 
     lateinit var baseUrl: String
@@ -10,7 +17,7 @@ object GitlabContext {
 
     var loggingInterceptor: HttpLoggingInterceptor =
         HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).also {
-            it.level = HttpLoggingInterceptor.Level.BODY
+            it.level = HttpLoggingInterceptor.Level.NONE
         }
 
     /**

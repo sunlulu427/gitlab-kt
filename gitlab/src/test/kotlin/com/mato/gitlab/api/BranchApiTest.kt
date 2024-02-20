@@ -20,5 +20,8 @@ class BranchApiTest : BaseTestCase {
         assertTrue(result.isSuccess)
         val data = result.getOrThrow()
         assertTrue(data.isNotEmpty())
+        for (branch in data) {
+            assertTrue(branch.name.isNotEmpty())
+        }
     }
 }

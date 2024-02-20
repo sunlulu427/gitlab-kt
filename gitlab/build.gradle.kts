@@ -1,3 +1,5 @@
+import org.jetbrains.dokka.gradle.DokkaTask
+
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
@@ -19,6 +21,14 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
+}
+
+tasks.withType<DokkaTask>().configureEach {
+    dokkaSourceSets {
+        named("main") {
+            samples.setFrom(getByName("test").sourceRoots.map(File::getPath))
+        }
+    }
 }
 
 tasks.test {
