@@ -55,6 +55,7 @@ object GitlabService {
     private val json = Json {
         ignoreUnknownKeys = true
         explicitNulls = false
+        decodeEnumsCaseInsensitive = false
         namingStrategy = JsonNamingStrategy { _, _, serialName ->
             serialName.replace(camelStyle, "$1_$2").lowercase()
         }
