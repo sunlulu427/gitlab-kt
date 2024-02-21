@@ -8,7 +8,9 @@ enum class TestingEnv {
     GITLAB_BASE_URL,
     GITLAB_TOKEN,
     GITLAB_TEST_EMAIL,
-    GITLAB_TEST_PROJECT_ID;
+    GITLAB_TEST_PROJECT_ID,
+    GITLAB_TEST_BRANCH,
+    ;
 
     fun get(): String = System.getenv(name)
 }

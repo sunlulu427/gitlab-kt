@@ -15,5 +15,6 @@ data class Branch(
     val developersCanPush: Boolean,
     val developersCanMerge: Boolean,
     val canPush: Boolean,
-    val webUrl: String = ""
+    val webUrl: String = "",
+    val commit: Commit
 )
