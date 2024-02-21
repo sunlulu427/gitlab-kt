@@ -1,7 +1,10 @@
 package com.mato.gitlab.api
 
 import com.mato.gitlab.response.Branch
+import com.mato.gitlab.response.ProtectedBranch
 import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -74,4 +77,33 @@ interface BranchApi {
      */
     @DELETE("projects/{id}/repository/merged_branches")
     suspend fun deleteMergedBranches(@Path("id") id: String): Result<Unit>
+
+    /**
+     * Gets a list of protected branches from a project as they are defined in the UI. If a wildcard is set,
+     * it is returned instead of the exact name of the branches that match that wildcard.
+     *
+     * @param id The ID or URL-encoded path of the project owned by the authenticated user
+     * @param search Name or part of the name of protected branches to be searched for
+     * @return A list of protected branches
+     * @sample com.mato.gitlab.api.BranchApiTest.testGetProtectedBranches
+     */
+    @GET("projects/{id}/protected_branches")
+    suspend fun getProtectedBranches(
+        @Path("id") id: String,
+        @Query("search") search: String? = null
+    ): Result<List<ProtectedBranch>>
+
+    /**
+     * Get single protected branch
+     *
+     * @param id The ID or URL-encoded path of the project owned by the authenticated user
+     * @param name The name of the branch or wildcard
+     * @return A single protected branch or wildcard protected branch
+     * @sample com.mato.gitlab.api.BranchApiTest.testGetSingleProtectedBranch
+     */
+    @GET("projects/{id}/protected_branches/{name}")
+    suspend fun getSingleProtectedBranch(
+        @Path("id") id: String,
+        @Path("name") name: String
+    ): Result<ProtectedBranch>
 }

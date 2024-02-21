@@ -18,3 +18,27 @@ data class Branch(
     val webUrl: String = "",
     val commit: Commit
 )
+
+@Serializable
+data class ProtectedBranch(
+    val name: String,
+    val pushAccessLevels: List<Access>,
+    val mergeAccessLevels: List<Access>,
+    val allowForcePush: Boolean?,
+    val codeOwnerApprovalRequired: Boolean?,
+    val inherited: Boolean?
+) {
+    @Serializable
+    data class Access(
+        val accessLevel: Int,
+        val accessLevelDescription: String,
+        val deployKeyId: Int? = null
+    )
+
+    enum class AccessLevel(val value: Int) {
+        None(0),
+        Developer(30),
+        Maintainer(40),
+        Admin(60)
+    }
+}

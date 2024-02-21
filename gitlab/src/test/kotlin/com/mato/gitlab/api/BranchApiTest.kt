@@ -62,4 +62,20 @@ class BranchApiTest : BaseTestCase {
         branchApi.deleteMergedBranches(projectId)
             .assertTrue()
     }
+
+    @Test
+    fun testGetProtectedBranches() = runBlocking {
+        val result = branchApi.getProtectedBranches(projectId)
+        result.assertTrue()
+        val branches = result.getOrThrow()
+        assertTrue(branches.isNotEmpty())
+    }
+
+    @Test
+    fun testGetSingleProtectedBranch() = runBlocking {
+        val result = branchApi.getSingleProtectedBranch(id = projectId, name = branchName)
+        result.assertTrue()
+        val branch = result.getOrThrow()
+        assertEquals(branch.name, branchName)
+    }
 }
