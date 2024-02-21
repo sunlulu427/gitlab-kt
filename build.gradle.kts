@@ -9,7 +9,6 @@ plugins {
 
 group = "com.mato"
 archivesName = "gitlab"
-version = "1.0"
 
 repositories {
     mavenCentral()
@@ -46,6 +45,7 @@ subprojects {
                 register<MavenPublication>("jar") {
                     groupId = "com.mato"
                     artifactId = "gitlab"
+                    version = "1.0"
 
                     afterEvaluate {
                         from(components["java"])

@@ -6,9 +6,6 @@ plugins {
     id("org.jetbrains.dokka")
 }
 
-group = "com.mato"
-version = "1.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
 }
