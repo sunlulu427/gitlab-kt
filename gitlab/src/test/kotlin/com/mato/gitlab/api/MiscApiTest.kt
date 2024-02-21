@@ -21,7 +21,7 @@ class MiscApiTest : BaseTestCase {
     @Test
     fun testGetGitignoreTemplates(): Unit = runBlocking {
         val result = miscApi.getGitignoreTemplates()
-        assumeTrue(result.isSuccess)
+        assumeTrue(result.isSuccess, result.exceptionOrNull()?.message)
         val data = result.getOrThrow()
         assertTrue(data.isNotEmpty())
     }
@@ -30,7 +30,7 @@ class MiscApiTest : BaseTestCase {
     @ValueSource(strings = ["C++", "C", "Android", "CMake"])
     fun testGetGitignoreTemplate(key: String): Unit = runBlocking {
         val result = miscApi.getGitignoreTemplate(key)
-        assertTrue(result.isSuccess)
+        assertTrue(result.isSuccess, result.exceptionOrNull()?.message)
         val data = result.getOrThrow()
         assertEquals(data.name, key)
         assertNotNull(data.content)
@@ -40,7 +40,7 @@ class MiscApiTest : BaseTestCase {
     @Test
     fun testGetGitlabCIYamlTemplates(): Unit = runBlocking {
         val result = miscApi.getGitlabCIYamlTemplates()
-        assertTrue(result.isSuccess)
+        assertTrue(result.isSuccess, result.exceptionOrNull()?.message)
         val data = result.getOrThrow()
         assertTrue(data.isNotEmpty())
     }
@@ -49,7 +49,7 @@ class MiscApiTest : BaseTestCase {
     @ValueSource(strings = ["Android", "C++", "Gradle", "Maven"])
     fun testGetGitlabCIYamlTemplate(key: String): Unit = runBlocking {
         val result = miscApi.getGitlabCIYamlTemplate(key)
-        assertTrue(result.isSuccess)
+        assertTrue(result.isSuccess, result.exceptionOrNull()?.message)
         val data = result.getOrThrow()
         assertEquals(data.name, key)
         assertNotNull(data.content)
@@ -62,7 +62,7 @@ class MiscApiTest : BaseTestCase {
             email = TestingEnv.GITLAB_TEST_EMAIL.get(),
             size = 32
         )
-        assertTrue(result.isSuccess)
+        assertTrue(result.isSuccess, result.exceptionOrNull()?.message)
         assertTrue(result.getOrThrow().avatarUrl.isNotEmpty())
     }
 }

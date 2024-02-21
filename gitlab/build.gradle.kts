@@ -23,7 +23,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
 }
 
-tasks.withType<DokkaTask>().configureEach {
+tasks.register("generateReadme") {
     doFirst {
         val title = """
             # Module gitlab
@@ -68,6 +68,10 @@ tasks.withType<DokkaTask>().configureEach {
             setReadOnly()
         }
     }
+}
+
+tasks.withType<DokkaTask>().configureEach {
+    dependsOn("generateReadme")
     dokkaSourceSets {
         named("main") {
             samples.from(getByName("test").sourceRoots)

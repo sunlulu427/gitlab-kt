@@ -19,7 +19,7 @@ class BranchApiTest : BaseTestCase {
     @Test
     fun testGetRepoBranches() = runBlocking {
         val result = branchApi.getRepoBranches(projectId)
-        assertTrue(result.isSuccess)
+        assertTrue(result.isSuccess, result.exceptionOrNull()?.message)
         val data = result.getOrThrow()
         assertTrue(data.isNotEmpty())
         for (branch in data) {
@@ -30,7 +30,7 @@ class BranchApiTest : BaseTestCase {
     @Test
     fun testGetSingleBranch() = runBlocking {
         val result = branchApi.getSingleBranch(projectId, branchName)
-        assertTrue(result.isSuccess)
+        assertTrue(result.isSuccess, result.exceptionOrNull()?.message)
         val branch = result.getOrThrow()
         assertEquals(branch.name, branchName)
         assertTrue(branch.commit.id.isNotEmpty())

@@ -54,6 +54,7 @@ object GitlabService {
     @OptIn(ExperimentalSerializationApi::class)
     private val json = Json {
         ignoreUnknownKeys = true
+        explicitNulls = false
         namingStrategy = JsonNamingStrategy { _, _, serialName ->
             serialName.replace(camelStyle, "$1_$2").lowercase()
         }
@@ -61,7 +62,7 @@ object GitlabService {
 
     val retrofit: Retrofit = Retrofit.Builder()
         .client(client)
-        .baseUrl(GitlabContext.baseUrl)
+        .baseUrl("${GitlabContext.baseUrl.removeSuffix("/")}/api/v4/")
         .addConverterFactory(json.asConverterFactory(mediaType))
         .addCallAdapterFactory(callAdapterFactory)
         .build()

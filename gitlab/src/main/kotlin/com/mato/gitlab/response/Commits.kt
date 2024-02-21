@@ -11,7 +11,7 @@ data class Commit(
     val id: String,
     val shortId: String,
     val createdAt: String,
-    val parentIds: List<String> = emptyList(),
+    val parentIds: List<String>?,
     val title: String,
     val message: String,
     val authorName: String,
@@ -20,6 +20,5 @@ data class Commit(
     val committerName: String,
     val committerEmail: String,
     val committedDate: String,
-//    val trailers: Map<String, String> = emptyMap(),
     val webUrl: String = ""
 )
