@@ -21,16 +21,21 @@ data class Branch(
 
 @Serializable
 data class ProtectedBranch(
+    val id: Int? = null,
     val name: String,
     val pushAccessLevels: List<Access>,
     val mergeAccessLevels: List<Access>,
-    val allowForcePush: Boolean?,
-    val codeOwnerApprovalRequired: Boolean?,
-    val inherited: Boolean?
+    val allowForcePush: Boolean? = null,
+    val codeOwnerApprovalRequired: Boolean? = null,
+    val unprotectAccessLevels: List<Access>? = null,
+    val inherited: Boolean? = null
 ) {
     @Serializable
     data class Access(
+        val id: Int? = null,
         val accessLevel: Int,
+        val userId: Int? = null,
+        val groupId: Int? = null,
         val accessLevelDescription: String,
         val deployKeyId: Int? = null
     )

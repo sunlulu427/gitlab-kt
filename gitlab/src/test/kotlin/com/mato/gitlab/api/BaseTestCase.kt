@@ -22,7 +22,7 @@ interface BaseTestCase {
         }
     }
 
-    fun <T> Result<T>.assertTrue() {
+    fun <T> Result<T>.assertSuccess() {
         Assertions.assertTrue(this.isSuccess, this.exceptionOrNull()?.message)
     }
 }
