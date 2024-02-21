@@ -19,7 +19,7 @@ class BranchApiTest : BaseTestCase {
     @Test
     fun testGetRepoBranches() = runBlocking {
         val result = branchApi.getRepoBranches(projectId)
-        assertTrue(result.isSuccess, result.exceptionOrNull()?.message)
+        result.assertTrue()
         val data = result.getOrThrow()
         assertTrue(data.isNotEmpty())
         for (branch in data) {
@@ -30,9 +30,36 @@ class BranchApiTest : BaseTestCase {
     @Test
     fun testGetSingleBranch() = runBlocking {
         val result = branchApi.getSingleBranch(projectId, branchName)
-        assertTrue(result.isSuccess, result.exceptionOrNull()?.message)
+        result.assertTrue()
         val branch = result.getOrThrow()
         assertEquals(branch.name, branchName)
         assertTrue(branch.commit.id.isNotEmpty())
+    }
+
+    @Test
+    fun testCreateBranch() = runBlocking {
+        val newBranchName = "new_${branchName}_${System.currentTimeMillis()}"
+        val result = branchApi.createRepoBranch(
+            id = projectId,
+            branch = newBranchName,
+            ref = branchName
+        )
+        result.assertTrue()
+        val branch = result.getOrThrow()
+        assertEquals(branch.name, newBranchName)
+    }
+
+    @Test
+    fun testDeleteBranch() = runBlocking {
+        val newBranchName = "new_${branchName}_${System.currentTimeMillis()}"
+        val newBranch = branchApi.createRepoBranch(projectId, newBranchName, branchName).getOrThrow()
+        val result = branchApi.deleteRepoBranch(projectId, newBranch.name)
+        result.assertTrue()
+    }
+
+    @Test
+    fun testDeleteMergedBranches() = runBlocking {
+        branchApi.deleteMergedBranches(projectId)
+            .assertTrue()
     }
 }

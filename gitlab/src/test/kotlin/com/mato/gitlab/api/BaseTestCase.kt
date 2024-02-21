@@ -2,6 +2,7 @@ package com.mato.gitlab.api
 
 import com.mato.gitlab.GitlabContext
 import okhttp3.logging.HttpLoggingInterceptor
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
 
 interface BaseTestCase {
@@ -19,5 +20,9 @@ interface BaseTestCase {
                 }
             }
         }
+    }
+
+    fun <T> Result<T>.assertTrue() {
+        Assertions.assertTrue(this.isSuccess, this.exceptionOrNull()?.message)
     }
 }

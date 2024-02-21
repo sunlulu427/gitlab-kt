@@ -17,17 +17,20 @@ class ResultCallAdapter<R>(private val responseType: Type) : CallAdapter<R, Call
     override fun responseType(): Type = responseType
 
     override fun adapt(call: Call<R>): Call<Result<R>> {
-        return ResultCall(call)
+        return ResultCall(call, responseType)
     }
 
-    private class ResultCall<R>(private val delegate: Call<R>) : Call<Result<R>> {
+    private class ResultCall<R>(private val delegate: Call<R>, private val responseType: Type) : Call<Result<R>> {
         private fun Response<R>.asResult(): Response<Result<R>> {
             val result = if (isSuccessful) {
                 val body = body()
                 if (body != null) {
                     Result.success(body)
                 } else {
-                    Result.failure(NullPointerException("Response body is null"))
+                    when (responseType) {
+                        Unit::class.java -> Result.success(Unit) as Result<R>
+                        else -> Result.failure(NullPointerException("Response body is null"))
+                    }
                 }
             } else {
                 Result.failure(RuntimeException("Response error: ${code()}"))
@@ -55,7 +58,7 @@ class ResultCallAdapter<R>(private val responseType: Type) : CallAdapter<R, Call
         }
 
         override fun clone(): Call<Result<R>> {
-            return ResultCall(delegate.clone())
+            return ResultCall(delegate.clone(), responseType)
         }
 
         override fun isExecuted(): Boolean {
