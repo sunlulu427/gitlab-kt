@@ -45,7 +45,7 @@ subprojects {
                 register<MavenPublication>("jar") {
                     groupId = "com.mato"
                     artifactId = "gitlab"
-                    version = "1.0"
+                    version = "1.1"
 
                     afterEvaluate {
                         from(components["java"])

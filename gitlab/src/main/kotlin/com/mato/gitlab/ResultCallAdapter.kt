@@ -24,7 +24,11 @@ class ResultCallAdapter<R>(private val responseType: Type) : CallAdapter<R, Call
         private fun Response<R>.asResult(): Response<Result<R>> {
             val result = if (isSuccessful) {
                 when (responseType) {
-                    Unit::class.java -> Result.success(Unit) as Result<R>
+                    Unit::class.java -> {
+                        @Suppress("UNCHECKED_CAST")
+                        Result.success(Unit) as Result<R>
+                    }
+
                     else -> {
                         val body = body()
                         if (body != null) Result.success(body) else Result.failure(NullPointerException("Response body is null"))
