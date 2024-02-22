@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test
  * @author sunlulu.tomato
  * @date 02/22/2024
  */
-class ProjectApiTest : BaseTestCase {
+class ProjectsApiTest : BaseTestCase {
 
-    private val projectApi = GitlabService.get<ProjectApi>()
+    private val projectApi = GitlabService.get<ProjectsApi>()
 
     @Test
     fun testGetProjects() = runBlocking {

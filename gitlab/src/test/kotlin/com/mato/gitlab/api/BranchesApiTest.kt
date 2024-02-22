@@ -15,9 +15,9 @@ import org.junit.jupiter.api.TestMethodOrder
  * @date 02/19/2024
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class BranchApiTest : BaseTestCase {
+class BranchesApiTest : BaseTestCase {
 
-    private val branchApi = GitlabService.get<BranchApi>()
+    private val branchApi = GitlabService.get<BranchesApi>()
     private val projectId = TestingEnv.GITLAB_TEST_PROJECT_ID.get()
     private val branchName = TestingEnv.GITLAB_TEST_BRANCH.get()
     private val newBranchName = "new_${branchName}_${System.currentTimeMillis()}"

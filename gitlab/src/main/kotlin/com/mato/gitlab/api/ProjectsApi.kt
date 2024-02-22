@@ -9,7 +9,7 @@ import retrofit2.http.Query
  * @date 02/19/2024
  * @sample com.mato.gitlab.api.ProjectApiTest
  */
-interface ProjectApi {
+interface ProjectsApi {
 
     @GET("projects")
     suspend fun getAllProjects(

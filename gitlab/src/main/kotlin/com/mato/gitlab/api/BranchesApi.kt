@@ -8,9 +8,9 @@ import retrofit2.http.*
 /**
  * @author sunlulu.tomato
  * @date 02/18/2024
- * @sample com.mato.gitlab.api.BranchApiTest
+ * @sample com.mato.gitlab.api.BranchesApiTest
  */
-interface BranchApi {
+interface BranchesApi {
     /**
      * Get repo branches
      *

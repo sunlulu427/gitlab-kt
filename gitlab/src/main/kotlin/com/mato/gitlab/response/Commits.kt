@@ -20,5 +20,7 @@ data class Commit(
     val committerName: String,
     val committerEmail: String,
     val committedDate: String,
-    val webUrl: String = ""
+    val webUrl: String = "",
+    val trailers: Map<String, String>? = null,
+    val extendedTrailers: Map<String, List<String>>? = null
 )
