@@ -10,7 +10,7 @@ import retrofit2.http.Query
  * @date 02/22/2024
  */
 interface CommitsApi {
-    @GET("projects/:id/repository/commits")
+    @GET("projects/{id}/repository/commits")
     suspend fun listRepositoryCommits(
         @Path("id") id: String,
         @Query("ref_name") refName: String? = null,
