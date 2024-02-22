@@ -24,3 +24,30 @@ data class Commit(
     val trailers: Map<String, String>? = null,
     val extendedTrailers: Map<String, List<String>>? = null
 )
+
+@Serializable
+data class Reference(
+    val type: String,
+    val name: String
+)
+
+@Serializable
+data class CommitSequence(
+    val count: Int
+)
+
+@Serializable
+data class CommitOperatorResult(
+    val id: String,
+    val message: String,
+    val shortId: String,
+    val authorName: String,
+    val authorEmail: String,
+    val authoredDate: String,
+    val committerName: String,
+    val committerEmail: String,
+    val title: String,
+    val webUrl: String = "",
+    val parentIds: List<String>? = null,
+    val errorCode: String? = null,
+)

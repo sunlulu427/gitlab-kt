@@ -1,7 +1,13 @@
 package com.mato.gitlab.api
 
+import com.mato.gitlab.request.DryRunResult
+import com.mato.gitlab.response.CommitOperatorResult
 import com.mato.gitlab.response.Commit
+import com.mato.gitlab.response.CommitSequence
+import com.mato.gitlab.response.Reference
+import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -31,4 +37,49 @@ interface CommitsApi {
         @Path("sha") sha: String,
         @Query("stats") stats: Boolean? = null
     ): Result<Commit>
+
+    @GET("projects/{id}/repository/commits/{sha}/refs")
+    suspend fun getRefsCommitPushTo(
+        @Path("id") id: String,
+        @Path("sha") sha: String,
+        @Query("type") type: String
+    ): Result<List<Reference>>
+
+    @GET("projects/{id}/repository/commits/{sha}/sequence")
+    suspend fun getSequenceOfCommit(
+        @Path("id") id: String,
+        @Path("sha") sha: String,
+        @Query("first_parent") firstParent: Boolean? = null
+    ): Result<CommitSequence>
+
+    @POST("projects/{id}/repository/commits/{sha}/cherry_pick")
+    suspend fun cherryPickCommit(
+        @Path("id") id: String,
+        @Path("sha") sha: String,
+        @Field("branch") branch: String,
+        @Field("message") message: String? = null
+    ): Result<CommitOperatorResult>
+
+    @POST("projects/{id}/repository/commits/{sha}/cherry_pick")
+    suspend fun cherryPickCommitDryRun(
+        @Path("id") id: String,
+        @Path("sha") sha: String,
+        @Field("branch") branch: String,
+        @Field("message") message: String? = null,
+        @Field("dry_run") dryRun: Boolean = true
+    ): Result<DryRunResult>
+
+    @POST("projects/{id}/repository/commits/{sha}/revert")
+    suspend fun revertCommit(
+        @Path("id") id: String,
+        @Path("sha") sha: String,
+        @Field("branch") branch: String
+    ): Result<CommitOperatorResult>
+
+    @POST("projects/{id}/repository/commits/{sha}/revert")
+    suspend fun revertCommitDryRun(
+        @Path("id") id: String,
+        @Path("sha") sha: String,
+        @Field("branch") branch: String
+    ): Result<DryRunResult>
 }
