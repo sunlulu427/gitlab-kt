@@ -1,7 +1,7 @@
 # Gitlab-kt
 
 Gitlab-kt is a gitlab api library for ci/cd developers which is based on the following libraries:
-- kotlin stdlib
+- kotlin coroutines
 - retrofit2
 - kotlinx.serialization
 
