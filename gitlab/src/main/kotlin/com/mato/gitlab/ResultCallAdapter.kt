@@ -23,13 +23,11 @@ class ResultCallAdapter<R>(private val responseType: Type) : CallAdapter<R, Call
     private class ResultCall<R>(private val delegate: Call<R>, private val responseType: Type) : Call<Result<R>> {
         private fun Response<R>.asResult(): Response<Result<R>> {
             val result = if (isSuccessful) {
-                val body = body()
-                if (body != null) {
-                    Result.success(body)
-                } else {
-                    when (responseType) {
-                        Unit::class.java -> Result.success(Unit) as Result<R>
-                        else -> Result.failure(NullPointerException("Response body is null"))
+                when (responseType) {
+                    Unit::class.java -> Result.success(Unit) as Result<R>
+                    else -> {
+                        val body = body()
+                        if (body != null) Result.success(body) else Result.failure(NullPointerException("Response body is null"))
                     }
                 }
             } else {

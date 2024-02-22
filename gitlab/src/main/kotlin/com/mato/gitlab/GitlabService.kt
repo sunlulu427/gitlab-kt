@@ -56,6 +56,7 @@ object GitlabService {
         ignoreUnknownKeys = true
         explicitNulls = false
         decodeEnumsCaseInsensitive = false
+        coerceInputValues = true
         namingStrategy = JsonNamingStrategy { _, _, serialName ->
             serialName.replace(camelStyle, "$1_$2").lowercase()
         }
